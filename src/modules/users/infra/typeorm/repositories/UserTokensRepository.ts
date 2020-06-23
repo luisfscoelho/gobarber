@@ -4,7 +4,7 @@ import IUserTokensRepository from '@modules/users/repositories/IUserTokensReposi
 
 import UserToken from '../entities/UserToken';
 
-class UsersTokensRepository implements IUserTokensRepository {
+class UserTokensRepository implements IUserTokensRepository {
   private ormRepository: Repository<UserToken>;
 
   constructor() {
@@ -12,11 +12,11 @@ class UsersTokensRepository implements IUserTokensRepository {
   }
 
   public async findByToken(token: string): Promise<UserToken | undefined> {
-    const user = await this.ormRepository.findOne({
+    const userToken = await this.ormRepository.findOne({
       where: { token },
     });
 
-    return user;
+    return userToken;
   }
 
   public async generate(user_id: string): Promise<UserToken> {
@@ -30,4 +30,4 @@ class UsersTokensRepository implements IUserTokensRepository {
   }
 }
 
-export default UsersTokensRepository;
+export default UserTokensRepository;

@@ -18,11 +18,11 @@ container.registerSingleton<IAppointmentsRepository>(
 );
 
 container.registerSingleton<IUsersRepository>(
-  'IUsersRepository',
+  'UsersRepository',
   UsersRepository,
 );
 
 container.registerSingleton<IUserTokensRepository>(
-  'IUserTokensRepository',
+  'UserTokensRepository',
   UserTokensRepository,
 );
