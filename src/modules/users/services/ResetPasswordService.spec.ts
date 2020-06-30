@@ -1,30 +1,30 @@
 import AppError from '@shared/errors/AppError';
 
-import FakeUserRepository from '../repositories/fakes/FakeUsersRepository';
+import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import FakeUserTokenRepository from '../repositories/fakes/FakeUserTokenRepository';
 import ResetPasswordService from './ResetPasswordService';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 
-let fakeUserRepository: FakeUserRepository;
+let fakeUsersRepository: FakeUsersRepository;
 let fakeUserTokenRepository: FakeUserTokenRepository;
 let resetPassword: ResetPasswordService;
 let fakeHashProvider: FakeHashProvider;
 
 describe('ResetPasswordService', () => {
   beforeEach(() => {
-    fakeUserRepository = new FakeUserRepository();
+    fakeUsersRepository = new FakeUsersRepository();
     fakeUserTokenRepository = new FakeUserTokenRepository();
     fakeHashProvider = new FakeHashProvider();
 
     resetPassword = new ResetPasswordService(
-      fakeUserRepository,
+      fakeUsersRepository,
       fakeUserTokenRepository,
       fakeHashProvider,
     );
   });
 
   it('should be able to reset the password', async () => {
-    const user = await fakeUserRepository.create({
+    const user = await fakeUsersRepository.create({
       email: 'jhondoe@example.com',
       name: 'Jhon Doe',
       password: '123456',
@@ -39,7 +39,7 @@ describe('ResetPasswordService', () => {
       token,
     });
 
-    const updatedUser = await fakeUserRepository.findById(user.id);
+    const updatedUser = await fakeUsersRepository.findById(user.id);
 
     expect(generateHash).toHaveBeenCalledWith('123123');
     expect(updatedUser?.password).toBe('123123');
@@ -68,7 +68,7 @@ describe('ResetPasswordService', () => {
   });
 
   it('should not be able to reset password passed more than two hours', async () => {
-    const user = await fakeUserRepository.create({
+    const user = await fakeUsersRepository.create({
       email: 'jhondoe@example.com',
       name: 'Jhon Doe',
       password: '123456',
